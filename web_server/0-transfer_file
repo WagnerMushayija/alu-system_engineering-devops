@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check if the correct number of parameters is passed
+if [ "$#" -ne 4 ]; then
+    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+
+# Assign each parameter to a variable
+file_path=$1         # The path to the file to be transferred
+server_ip=$2         # The IP of the server we want to transfer the file to
+username=$3          # The username scp connects with
+ssh_key_path=$4      # The path to the SSH private key that scp uses
+
+# Use `scp` to transfer the file
+scp -o StrictHostKeyChecking=no -i "$ssh_key_path" "$file_path" "$username@$server_ip:~/"
