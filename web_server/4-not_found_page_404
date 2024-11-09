@@ -1,11 +1,48 @@
 #!/usr/bin/env bash
-# Configure your Nginx server to have a custom 404 page that contains the string `Ceci n'est pas une page`
+# Updates the current state of the server
+# Installs Nginx on the server
+# Configures custom 404 and redirection pages
+# Restarts Nginx
 
-sudo apt-get update
-sudo apt-get install -y nginx
+# Update package lists and install Nginx
+apt-get -y update
+apt-get install -y nginx
 
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-new_error_page="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s|listen 80 default_server;|$new_error_page|" /etc/nginx/sites-enabled/default
+# Overwrite the default Nginx page (optional)
+echo "Holberton School for the win!" > /var/www/html/index.html
 
-sudo service nginx restart 
+# Create the custom 404 page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Update the Nginx configuration file
+cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    # Redirection location
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=7qZl_5xHoBw&t=1358s&ab_channel=PowerfulJRE;
+    }
+
+    # A location that intentionally returns a 404 for testing
+    location /xyz {
+        return 404;
+    }
+
+    # Custom error page for 404
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}
+EOF
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
+ 
