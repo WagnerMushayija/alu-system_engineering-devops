@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="./assets/logo1.png" type="image/x-icon">
+    <title>Page Lost in Space</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1d1f27;
+            color: #ffffff;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px 0;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-left h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #50b3ff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        ul li {
+            font-weight: 600;
+            color: #ffffff;
+            transition: color 0.3s;
+        }
+
+        ul li:hover {
+            color: #50b3ff;
+        }
+
+        button {
+            color: #ffffff;
+            font-weight: 600;
+            background-color: #ff7849;
+            padding: 8px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .main-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .main-content h1 {
+            font-size: 42px;
+            color: #ff7849;
+        }
+
+        .main-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+
+        .home-link {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            background-color: #50b3ff;
+            padding: 12px 40px;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .home-link:hover {
+            background-color: #ff7849;
+        }
+    </style>
+</head>
+<body>
+    <header class="nav">
+        <div class="nav-left">
+            <img src="./assets/logo2.png" alt="logo" style="height: 40px; margin-right: 10px;">
+            <h1>Galactic</h1>
+        </div>
+
+        <div class="nav-right">
+            <ul>
+                <li>Home</li>
+                <li>Services</li>
+                <li>Projects</li>
+                <li>Contact</li>
+            </ul>
+            <button>Contact Us</button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <img src="./assets/404-astronaut.png" alt="404 Astronaut" draggable="false">
+        <h1>Oops! Lost in Space</h1>
+        <p>It seems the page you're looking for has drifted off into the cosmos. No worries, our navigation system is here to guide you back.</p>
+        <a href="/" class="home-link">Return Home</a>
+    </div>
+</body>
+</html>
+
