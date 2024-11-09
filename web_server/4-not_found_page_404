@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-# Updates the current state of the server
-# Installs Nginx on the server
-# Configures custom 404 and redirection pages
-# Restarts Nginx
+# Script to install Nginx, set up a custom 404 page, and add a redirect.
 
 # Update package lists and install Nginx
 apt-get -y update
@@ -14,7 +11,7 @@ echo "Holberton School for the win!" > /var/www/html/index.html
 # Create the custom 404 page
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Update the Nginx configuration file
+# Re-create the default Nginx configuration
 cat << EOF > /etc/nginx/sites-available/default
 server {
     listen 80 default_server;
@@ -30,19 +27,18 @@ server {
         return 301 https://www.youtube.com/watch?v=7qZl_5xHoBw&t=1358s&ab_channel=PowerfulJRE;
     }
 
-    # A location that intentionally returns a 404 for testing
-    location /xyz {
-        return 404;
-    }
-
     # Custom error page for 404
     error_page 404 /404.html;
-    location = /404.html {
-        internal;
+
+    # This ensures custom 404 works when accessing /xyz
+    location /xyz {
+        return 404;
     }
 }
 EOF
 
-# Restart Nginx to apply the changes
-sudo service nginx restart
- 
+# Link the new configuration to sites-enabled
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Test and reload the Nginx configuration
+sudo nginx -t && /etc/nginx/sites-available/defaultsudo service nginx restart 
