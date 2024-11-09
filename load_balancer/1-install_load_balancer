@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy on your lb-01 server.
-# Make sure that HAproxy can be managed via an init script
-sudo apt-get -y update
-sudo apt-get -y install haproxy
-
-echo \
-"
-frontend lb-frontend
-        bind *:80
-        mode http
-        default_backend lb-backend
-backend lb-backend
-        balance roundrobin
-        server web-01 54.172.35.22:80 check
-        server web-02 54.242.196.113:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
-
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
-sudo service haproxy restart
+#Updates the current state of the server
+#Installs Nginx on the server
+#Changes the user and user group ownership for editing file
+#overwrites the default page of nginx
+#overwrites the default configuration file default
+#add a redirection and a location for the redirection
+#restarts nginx
+apt-get -y update
+apt-get install -y nginx
+sudo chown -R "$USER":"$USER" /etc/nginx/sites-available/default
+echo "upstream servers{
+	server 54.172.35.22;
+	server 54.242.196.113;}
+	server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	location / {
+		proxy_pass http://servers;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;}
+}" > /etc/nginx/sites-available/default
+sudo chown -R root:root /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx reload 
