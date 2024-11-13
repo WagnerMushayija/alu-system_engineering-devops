@@ -24,3 +24,5 @@ echo "$new_haproxy_config" | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
 
 #restart haproxy 
 sudo service haproxy restart
+
+echo "HAProxy installation and configuration complete. Traffic is now load balanced between web-01 and web-02."
