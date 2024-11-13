@@ -8,19 +8,19 @@ sudo apt install haproxy -y
 #new configuration
 new_haproxy_config=\
 "
-	frontend http_frontend
-		bind *:80
-		default_backend http_backend
-	http_backend
-		balance roundrobin
-		server 6351-web-01 3.88.209.239:80
-		server 6351-web-02 54.242.196.113:80
+frontend http_frontend
+	bind *:80
+	default_backend http_backend
+backend http_backend
+	balance roundrobin
+	server 6351-web-01 3.88.209.239:80
+	server 6351-web-02 54.242.196.113:80
 "
 #backing the original config file
-sudo cp etc/haproxy/haproxy.cfg etc/haproxy/haproxy.cfg.backup
+sudo cp /etc/haproxy/haproxy.cfg etc/haproxy/haproxy.cfg.backup
 
 #appending it to the config file
-echo "$new_haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+echo "$new_haproxy_config" | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
 
 #restart haproxy 
 sudo service haproxy restart
