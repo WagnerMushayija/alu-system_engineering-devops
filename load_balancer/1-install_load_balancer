@@ -21,3 +21,6 @@ sudo cp etc/haproxy/haproxy.cfg etc/haproxy/haproxy.cfg.backup
 
 #appending it to the config file
 echo "$new_haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+
+#restart haproxy 
+sudo service haproxy restart
