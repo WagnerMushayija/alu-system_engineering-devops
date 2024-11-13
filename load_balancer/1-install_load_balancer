@@ -13,8 +13,8 @@ new_haproxy_config=\
 		default_backend http_backend
 	http_backend
 		balance roundrobin
-		server web-01 3.88.209.239:80
-		server web-02 54.242.196.113:80
+		server 6351-web-01 3.88.209.239:80
+		server 6351-web-02 54.242.196.113:80
 "
 #backing the original config file
 sudo cp etc/haproxy/haproxy.cfg etc/haproxy/haproxy.cfg.backup
