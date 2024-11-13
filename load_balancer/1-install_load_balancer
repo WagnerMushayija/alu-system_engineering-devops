@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 #Updates the current state of the server
-#Installs Nginx on the server
-#Changes the user and user group ownership for editing file
-#overwrites the default page of nginx
-#overwrites the default configuration file default
-#add a redirection and a location for the redirection
-#restarts nginx
-apt-get -y update
-apt-get install -y nginx
-sudo chown -R "$USER":"$USER" /etc/nginx/sites-available/default
-echo "upstream servers{
-	server 54.172.35.22;
-	server 54.242.196.113;}
-	server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	location / {
-		proxy_pass http://servers;
-		proxy_set_header Host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto $scheme;}
-}" > /etc/nginx/sites-available/default
-sudo chown -R root:root /etc/nginx/sites-available/default
-sudo service nginx restart
-sudo service nginx reload 
+#Installs haproxy on the server
+
+sudo apt-get update -y
+sudo apt install haproxy -y
+
+#new configuration
+new_haproxy_config=\
+"
+	frontend http_frontend
+		bind *:80
+		default_backend http_backend
+	http_backend
+		balance roundrobin
+		server web_01 3.88.209.239:80
+		server web_02 54.242.196.113:80
+"
+#backing the original config file
+sudo cp etc/haproxy/haproxy.cfg etc/haproxy/haproxy.cfg.backup
+
+#appending it to the config file
+echo "$new_haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
